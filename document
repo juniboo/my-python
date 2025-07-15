@@ -1,0 +1,88 @@
+# 打开文件（只读模式）
+with open('example.txt', 'r', encoding='utf-8') as f:
+    content = f.read()  # 读取整个文件内容为字符串
+    print(content)
+
+# 逐行读取
+with open('example.txt', 'r', encoding='utf-8') as f:
+    for line in f:
+        print(line.strip())  # .strip() 去掉换行符
+
+# 读取前 n 个字符
+with open('example.txt', 'r', encoding='utf-8') as f:
+    part = f.read(10)  # 读取前10个字符
+    print(part)
+
+# 读取前 n 行
+with open('example.txt', 'r', encoding='utf-8') as f:
+    lines = [next(f) for _ in range(3)]  # 读取前3行
+    print(lines)
+
+# 写入文件（会覆盖原内容）
+with open('example.txt', 'w', encoding='utf-8') as f:
+    f.write("这是写入的内容\n")
+    f.write("第二行内容\n")
+
+# 追加内容到文件末尾
+with open('example.txt', 'a', encoding='utf-8') as f:
+    f.write("这是追加的内容\n")
+
+# 写入多行
+lines = ["第一行\n", "第二行\n", "第三行\n"]
+with open('example.txt', 'w', encoding='utf-8') as f:
+    f.writelines(lines)
+
+# 读取成列表
+with open('example.txt', 'r', encoding='utf-8') as f:
+    lines = f.readlines()
+    print(lines)  # 每一行为一个元素（包含 \n）
+
+# 判断文件是否存在
+import os
+if os.path.exists('example.txt'):
+    print("文件存在")
+else:
+    print("文件不存在")
+
+# 获取文件大小（单位：字节）
+size = os.path.getsize('example.txt')
+print(f"文件大小为 {size} 字节")
+
+# 重命名文件
+os.rename('example.txt', 'renamed.txt')
+
+# 删除文件
+if os.path.exists('renamed.txt'):
+    os.remove('renamed.txt')
+
+# 创建新文件（如果不存在）
+with open('newfile.txt', 'x', encoding='utf-8') as f:
+    f.write("创建文件")
+
+# 复制文件
+import shutil
+shutil.copy('newfile.txt', 'copy_of_newfile.txt')
+
+# 移动文件
+shutil.move('copy_of_newfile.txt', 'moved_copy.txt')
+
+# 读取二进制文件（如图片）
+with open('example.jpg', 'rb') as f:
+    data = f.read()
+    print(f"读取了 {len(data)} 个字节")
+
+# 写入二进制文件
+with open('copy.jpg', 'wb') as f:
+    f.write(data)
+
+# 捕获文件操作异常
+try:
+    with open('not_exist.txt', 'r') as f:
+        print(f.read())
+except FileNotFoundError:
+    print("文件未找到")
+
+# 逐字节读取文件（适合大文件处理）
+with open('example.txt', 'rb') as f:
+    while chunk := f.read(1024):  # 每次读 1024 字节
+        print(chunk)
